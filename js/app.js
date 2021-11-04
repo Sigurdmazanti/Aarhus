@@ -27,13 +27,16 @@ fetchCategories();
 function appendEvents(events) {
     let htmlEvents = "";
     for (let event of events) {
+        for (const eventimg of event.Files) {
         htmlEvents += /*html*/ `
       <article>
         <div>
+        <img src="${eventimg.Uri}">
           <p>${event.Name}</p>
         </div>
       </article>  
       `;
+        }
     }
     document.querySelector("#event").innerHTML = htmlEvents;
 }
