@@ -7,9 +7,9 @@ const _routes = {
   "#/": "home",
   "#/discover": "discover",
   "#/favorites": "favorites",
-  "#/search": "home",
   "#/category": "category",
   "#/specific-drink": "specific-drink",
+  "#/detailView":  "detailView"
 };
 
 const _pages = document.querySelectorAll(".page");

@@ -23,20 +23,44 @@ async function fetchCategories() {
 }
 fetchCategories();
 
-// Appending to DOM
+// function appendEventsImages(events) {
+//     let htmlEvents = "";
+//     let htmlImg = "";
+//     for (let event of events) {
+//         htmlEvents += /*html*/ `
+//         <article>
+//         <div>
+//           <p>${event.Name}</p>
+//           `;
+//         for (const eventimg of event.Files) {
+//             htmlEvents += /*html*/ `
+//             <img src="${eventimg.Uri}">
+//             </div>
+//             </article> 
+//             `;
+//         }
+//     }
+//     document.querySelector("#event").innerHTML = htmlEvents + htmlImg;
+// }
+function singleImage(images) {
+    let imageUrl = "";
+    for (const image of images.Files) {
+     imageUrl = images.Files[0].Uri;
+    }
+    return imageUrl;
+  }
+
 function appendEvents(events) {
     let htmlEvents = "";
     for (let event of events) {
-        for (const eventimg of event.Files) {
         htmlEvents += /*html*/ `
-      <article>
+        <article>
         <div>
-        <img src="${eventimg.Uri}">
           <p>${event.Name}</p>
-        </div>
-      </article>  
-      `;
-        }
+          <img src="${singleImage(event)}">
+            </div>
+            </article> 
+            `;
     }
     document.querySelector("#event").innerHTML = htmlEvents;
 }
@@ -50,9 +74,38 @@ function search(searchValue) {
         let category = searchedEvent.Category.Name.toLowerCase();
         // cafés fra JSON har en special karakter, det her 
         let categorySpecial = category.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
-            if (name.includes(searchValue) || categorySpecial.includes(searchValue)) {
-                results.push(searchedEvent);
-            }
+        if (name.includes(searchValue) || categorySpecial.includes(searchValue)) {
+            results.push(searchedEvent);
         }
+    }
     appendEvents(results);
+}
+
+//Detail View
+function showDetailView(id){
+    const event = _visitDenmarkData.find(event => event.id == id);
+    document.querySelector("#detailViewContainer").innerHTML = `
+    <p>${event.Name}</p>
+    `;
+    navigateTo("detailView");
+}
+
+function appendEventsImages(events) {
+    let htmlEvents = "";
+    let htmlImg = "";
+    for (let event of events) {
+        htmlEvents += /*html*/ `
+        <article>
+        <div>
+          <p>${event.Name}</p>
+          `;
+        for (const eventimg of event.Files) {
+            htmlEvents += /*html*/ `
+            <img src="${eventimg.Uri}">
+            </div>
+            </article> 
+            `;
+        }
+    }
+    document.querySelector("#test").innerHTML = htmlEvents + htmlImg;
 }
