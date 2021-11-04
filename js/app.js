@@ -42,19 +42,22 @@ fetchCategories();
 //     }
 //     document.querySelector("#event").innerHTML = htmlEvents + htmlImg;
 // }
-function singleImage(images) {
+function singleImage(events) {
     let imageUrl = "";
-    for (const image of images.Files) {
-     imageUrl = images.Files[0].Uri;
-    }
+        if(events.Files.length == 0) {
+            imageUrl = "http://www.mandysam.com/img/random.jpg";
+        }
+        else {
+            imageUrl = events.Files[0].Uri;
+        }
     return imageUrl;
-  }
+}
 
 function appendEvents(events) {
     let htmlEvents = "";
     for (let event of events) {
         htmlEvents += /*html*/ `
-        <article>
+        <article onclick="showDetailView('${event.Id}')">
         <div>
           <p>${event.Name}</p>
           <img src="${singleImage(event)}">
@@ -83,29 +86,11 @@ function search(searchValue) {
 
 //Detail View
 function showDetailView(id){
-    const event = _visitDenmarkData.find(event => event.id == id);
+    const event = _visitDenmarkData.find(event => event.Id == id);
     document.querySelector("#detailViewContainer").innerHTML = `
+    <img src="${singleImage(event)}">
     <p>${event.Name}</p>
+    
     `;
     navigateTo("detailView");
-}
-
-function appendEventsImages(events) {
-    let htmlEvents = "";
-    let htmlImg = "";
-    for (let event of events) {
-        htmlEvents += /*html*/ `
-        <article>
-        <div>
-          <p>${event.Name}</p>
-          `;
-        for (const eventimg of event.Files) {
-            htmlEvents += /*html*/ `
-            <img src="${eventimg.Uri}">
-            </div>
-            </article> 
-            `;
-        }
-    }
-    document.querySelector("#test").innerHTML = htmlEvents + htmlImg;
 }
