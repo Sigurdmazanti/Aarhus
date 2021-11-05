@@ -6,4 +6,17 @@ body {
     border: none;
     padding: 10px 5px 10px 10px;
     margin: 15px 0 25px 0;
+<<<<<<< Updated upstream
   }
+=======
+  }
+
+.groen {
+      width: 200px;
+      height: 200px;
+      background-color: green;
+}
+#viewmore {
+    display: none;
+}
+>>>>>>> Stashed changes
