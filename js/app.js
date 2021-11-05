@@ -134,7 +134,7 @@ function search(searchValue) {
 }
 
 //Detail View
-function showDetailView(id) {
+function showDetailView(id){
     let html = ""
     const event = _visitDenmarkData.find(event => event.Id == id);
     html += `
@@ -143,36 +143,38 @@ function showDetailView(id) {
     <p>${event.Descriptions[0].Text.substring(0,200)}</p>
     <p id="viewmore">${event.Descriptions[0].Text.substring(200)}</p>
     <p id="viewmore-btn">View more</p>
+    <button onclick="addtoFavoriteList(${event.Id})"></button>
     <p>${event.Address.AddressLine1} </p>
     <p>${event.Address.PostalCode}, ${event.Address.City}</p>
     <h3>You might also like..</h3>
     <div id="related">
     `;
-    if (event.RelatedProducts.length > 0) {
-        for (let related of event.RelatedProducts) {
-            html += `
+    if(event.RelatedProducts.length > 0){
+        for (let related of event.RelatedProducts){
+        html += `
             <div class="relatedproducts" onclick="showDetailView(${related.Id})">
                 <p>${related.Name}</p>
         `;
-            for (let event of _visitDenmarkData) {
-                if (related.Id == event.Id) {
-                    html += `
+            for (let event of _visitDenmarkData){
+                if(related.Id == event.Id){
+                html +=`
                     <img src="${event.Files[0].Uri}">
                     </div>
                 `;
                 }
             }
         }
-    } else {
-        for (let other of _visitDenmarkData) {
-            if (other.Category.Id == event.Category.Id) {
-                html += `
+    }
+    else {
+        for(let other of _visitDenmarkData){
+            if(other.Category.Id == event.Category.Id){
+                html +=`
                 <div class="relatedproducts" onclick="showDetailView(${other.Id})">
                     <p>${other.Name}</p>
                     <img src="${event.Files[0].Uri}">
                 </div>
             `;
-                console.log(other.Name)
+            console.log(other.Name)
             }
         }
     }
@@ -181,7 +183,7 @@ function showDetailView(id) {
     navigateTo("detailView");
 }
 
-// // View more button
+// View more button
 // const viewmore = document.getElementById('viewmore-btn');
 // console.log(viewmore);
 
@@ -197,8 +199,34 @@ function showDetailView(id) {
 //     }
 // });
 
+// Add to favourites
+let favoriteList = [];
 
+function addtoFavoriteList(id){
+    let html = "";
+    const event = _visitDenmarkData.find(event => event.Id == id);
+    if(favoriteList.includes(event.Id)){
+        favoriteList.splice("event.Id")
+    }
+    else {
+    favoriteList.push(event.Id)
+    }
+    console.log(favoriteList)
+    html += `
+        <h1>Your Favorites</h1>
+        <div class="scrollable">
+    `;
+    for(id of favoriteList){
+        html += `
+        <p>${event.Name}</p>
+    `;
+    }
+    document.querySelector("#favorites").innerHTML = html;
+}
 
+favoriteList.push("Hey", "hey")
+
+console.log(favoriteList);
 
 
 // let map;
