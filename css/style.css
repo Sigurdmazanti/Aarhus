@@ -16,3 +16,12 @@ img {
       height: 200px;
       background-color: green;
 }
+
+.map {
+    height: 400px;
+    width: 600px;
+   }
+
+#viewmore {
+    display: none;
+}
