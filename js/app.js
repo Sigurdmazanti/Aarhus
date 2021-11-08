@@ -9,7 +9,6 @@ async function fetchAllData() {
     const response = await fetch('json/data.json');
     const data = await response.json();
     _visitDenmarkData = data;
-    // console.log(_visitDenmarkData);
     appendEvents(_visitDenmarkData);
 }
 fetchAllData();
@@ -19,7 +18,6 @@ async function fetchCategories() {
     const response = await fetch('json/categories.json');
     const data = await response.json();
     _visitDenmarkCategories = data;
-    // console.log(_visitDenmarkCategories);
 }
 fetchCategories();
 
@@ -90,22 +88,17 @@ function toRad(Value) {
 function appendEvents(events) {
     let htmlEvents = "";
     for (let event of events) {
-        const ja = event.Address.Municipality.Name;
         htmlEvents += /*html*/ `
         <article onclick="showDetailView('${event.Id}')">
         <div>
           <p>${event.Name}</p>
           <img src="${singleImage(event)}">
-          <p>${ja}</p>
             </div>
             </article> 
             `;
     }
     document.querySelector("#event").innerHTML = htmlEvents;
 }
-
-
-
 function singleImage(events) {
     let imageUrl = "";
     if (events.Files.length == 0) {
@@ -141,6 +134,7 @@ function showDetailView(id){
     <img src="${singleImage(event)}">
     <h2>${event.Name}</h2>
     <p>${event.Descriptions[0].Text.substring(0,200)}</p>
+    <p>${event.Address.GeoCoordinate.Lati}</p>
     <p id="viewmore">${event.Descriptions[0].Text.substring(200)}</p>
     <p id="viewmore-btn">View more</p>
     <button onclick="addtoFavoriteList(${event.Id})"></button>

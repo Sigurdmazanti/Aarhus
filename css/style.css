@@ -1,26 +1,215 @@
+/* =======================
+   GLOBAL
+   ======================= */
+
+/* ===================== Fonts ===================== */ 
+@font-face {
+    font-family: 'bold';
+    src: url('visitdenmark-bold-webfont.woff2') format('woff2'),
+        url('visitdenmark-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'extrabold';
+    src: url('visitdenmark-extrabold-webfont.woff2') format('woff2'),
+        url('visitdenmark-extrabold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'medium';
+    src: url('visitdenmark-medium-webfont.woff2') format('woff2'),
+        url('visitdenmark-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'outlinemedium';
+    src: url('visitdenmark-outline-medium-webfont.woff2') format('woff2'),
+        url('visitdenmark-outline-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'outlineregular';
+    src: url('visitdenmark-outline-regular-webfont.woff2') format('woff2'),
+        url('visitdenmark-outline-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'regular';
+    src: url('visitdenmark-regular-webfont.woff2') format('woff2'),
+        url('visitdenmark-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'semibold';
+    src: url('visitdenmark-semibold-webfont.woff2') format('woff2'),
+        url('visitdenmark-semibold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* ===================== Root variables ===================== */ 
+:root {
+    --red: #E70013;
+    --blue: #022B52;
+    --gray: #CED2D3;
+    --black: #000000;
+    --white: #FFFFFF;
+}
+
+/* ===================== Reset ===================== */
+* {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	scroll-behavior: smooth;
+}
+
+/* ===================== Global styling ===================== */
 body {
+    background-color: var(--white);
+}
+
+h1 {
+    font-family: 'bold';
+}
+
+/* =======================
+   NAVIGATION
+   ======================= */
+
+/* ===================== Nav bar bottom ===================== */ 
+.tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--blue);
+}
+
+.tabbar a {
+    color: var(--white);
+    padding: 6px 0px;
+    text-decoration: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .tabbar a.active, .tabbar a:hover {
+    background-color: var(--white);
+    color: var(--blue);
+  }
+/* ===================== Landing page/Home ===================== */ 
+.home_hero {
+    height: 40vh;
+    background-color: var(--blue);
+    color: var(--white);
+    border-radius: 0px 0px 15px 15px;
+}
+
+.fa-stack {
+    margin: 5px 5px 0px 0px;
+    vertical-align: middle;
+    font-size: 1.2rem;
+    text-align: right;
+}
+
+.user_profile_icon {
+    text-align: right;
+}
+
+.home_hero_text {
     text-align: center;
-    background-color: khaki;
+    padding: 0px 20px 0px 20px;
+    width: 100%;
 }
-img {
-    max-width: 100%;
+
+.home_hero h2 {
+    text-transform: uppercase;
 }
+
 .searchbar {
     border: none;
     padding: 10px 5px 10px 10px;
-    margin: 15px 0 25px 0;
-  }
+    width: 100%;
+    border-radius: 5px;
+}
+
+input[type="search"] {
+    font-family: "Font Awesome 5 Free", "FontAwesome";
+    font-size: 1em;
+    font-weight: 900;
+    color: var(--blue);
+}
+
+.home_hero_categories {
+    display: flex;
+    justify-content: space-between;
+}
+
+.home_hero_categories li {
+    display: flex;
+    width: 25%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: var(--red);
+    margin: 10px;
+    padding: 20px 5px 20px 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-size: 0.6rem;
+    word-break: break-word;
+}
+
+.home_hero_categories li:first-child {
+    margin-left: 0px;
+}
+
+.home_hero_categories li:last-child {
+    margin-right: 0px;
+}
+
+.home_hero_categories li a {
+    text-decoration: none;
+    color: var(--white);
+}
+
+img {
+    max-width: 100%;
+}
+
 
 .groen {
-      width: 200px;
-      height: 200px;
-      background-color: green;
+    width: 200px;
+    height: 200px;
+    background-color: green;
 }
 
 .map {
     height: 400px;
     width: 600px;
-   }
+}
 
 #viewmore {
     display: none;

@@ -13,21 +13,42 @@
 
 <body onhashchange="pageChange()">
     <nav class="tabbar">
-        <a href="#home"><i class="fas fa-home fa-lg"></i></a>
-        <a href="#discover"><i class="fas fa-glass-martini-alt fa-lg"></i></a>
-        <a href="#favorites"><i class="fas fa-heart fa-lg"></i></a>
-        <a href="#search"><i class="fas fa-search fa-lg"></i></a>
+        <a href="#home"><i class="fas fa-home fa-2x"></i></a>
+        <a href="#discover"><i class="fas fa-search fa-2x"></i></a>
+        <a href="#calendar"><i class="fas fa-calendar-week fa-2x"></i></a>
+        <a href="#favorites"><i class="fas fa-bookmark fa-2x"></i></a>
     </nav>
 
     <section id="home" class="page">
-        <h1>Search</h1>
-        <div id="location"></div>
-        <div class="hejsa"></div>
-        <div id="search-frontpage">
-            <div class="search-function">
-                <input type="search" placeholder="I want..." class="searchbar" onkeyup="search(this.value)">
+        <section class="home_hero">
+            <div class="user_profile_icon">
+            <span class="fa-stack">
+                <i class="far fa-circle fa-stack-2x"></i>
+                <i class="fas fa-user fa-stack-1x"></i>
+              </span>
             </div>
-        </div>
+            <div class="home_hero_text">
+                <h1>VisitAarhus</h1>
+                <h2>Start exploring Aarhus</h2>
+                <div id="search-frontpage">
+                    <div class="search-function">
+                        <input type="search" placeholder="&#xf002; Search" class="searchbar" onkeyup="search(this.value)">
+                    </div>
+                </div>
+
+                <ul class="home_hero_categories">
+                    <li><a href="">Places to eat</a></li>
+                    <li><a href="">Activities</a></li>
+                    <li><a href="">Attractions</a></li>
+                    <li><a href="">Events</a></li>
+                </ul>
+            </div>
+        </section>
+        <section id="event"></section>
+    </section>
+
+    <section id="another" class="page">
+        <div id="location"></div>
         <section id="event"></section>
     </section>
 
@@ -37,9 +58,9 @@
     <section id="favorites" class="page"></section>
     <section id="detailView" class="page">
         <div id="detailViewContainer"></div>
-    <section>
-    <script src="js/app.js"></script>
-    <script src="js/spa.js"></script>
+        <section>
+            <script src="js/app.js"></script>
+            <script src="js/spa.js"></script>
 </body>
 
 </html>
