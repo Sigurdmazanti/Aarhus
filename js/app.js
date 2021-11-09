@@ -10,6 +10,8 @@ async function fetchAllData() {
     const data = await response.json();
     _visitDenmarkData = data;
     appendEvents(_visitDenmarkData);
+    appendPlacestoeat(_visitDenmarkData);
+    appendFavorites(_visitDenmarkData)
 }
 fetchAllData();
 
@@ -66,7 +68,6 @@ function showError(error) {
 }
 getLocation();
 
-
 function calcCrow(lat1, lon1, lat2, lon2) {
     var R = 6371; // km
     var dLat = toRad(lat2 - lat1);
@@ -95,7 +96,6 @@ function singleImage(events) {
     return imageUrl;
 }
 
-
 function appendEvents(events) {
     let htmlEvents = "";
     for (let event of events) {
@@ -104,7 +104,6 @@ function appendEvents(events) {
     <div>
     <p>${event.Name}</p>
     <img src="${singleImage(event)}">
-    <p>${getLocation(event)}</p>
     </div>
     </article>
     `;
@@ -138,33 +137,36 @@ function search(searchValue) {
 
 
 
-//Detail View
+//Detail View <p>${event.Address.GeoCoordinate.Lati}</p> 
+{/* <p id="viewmore">${event.Descriptions[0].Text.substring(200)}</p>
+<p id="viewmore-btn">View more</p> */}
 function showDetailView(id) {
     let html = ""
     const event = _visitDenmarkData.find(event => event.Id == id);
     html += `
     <img src="${singleImage(event)}">
+    <div class="detail-info">
+    <button onclick="addtoFavoriteList(${event.Id})">Add</button>
     <h2>${event.Name}</h2>
-    <p>${event.Descriptions[0].Text.substring(0,200)}</p>
-    <p>${event.Address.GeoCoordinate.Lati}</p>
-    <p id="viewmore">${event.Descriptions[0].Text.substring(200)}</p>
-    <p id="viewmore-btn">View more</p>
-    <button onclick="addtoFavoriteList(${event.Id})"></button>
+    <p>${event.Descriptions[0].Text.substring(0,200)}...</p>
     <p>${event.Address.AddressLine1} </p>
     <p>${event.Address.PostalCode}, ${event.Address.City}</p>
+    <a href="${event.CanonicalUrl}">More info</a>
     <h3>You might also like..</h3>
     <div id="related">
     `;
-    if (event.RelatedProducts.length > 0) {
+    if (event.RelatedProducts.length > 1) {
         for (let related of event.RelatedProducts) {
             html += `
             <div class="relatedproducts" onclick="showDetailView(${related.Id})">
-                <p>${related.Name}</p>
+                
         `;
             for (let event of _visitDenmarkData) {
                 if (related.Id == event.Id) {
                     html += `
                     <img src="${event.Files[0].Uri}">
+                    <p>${event.Name}</p>
+                    <p>${event.MainCategory.Name}</p>
                     </div>
                 `;
                 }
@@ -175,15 +177,16 @@ function showDetailView(id) {
             if (other.Category.Id == event.Category.Id) {
                 html += `
                 <div class="relatedproducts" onclick="showDetailView(${other.Id})">
+                    <img src="${other.Files[0].Uri}">
                     <p>${other.Name}</p>
-                    <img src="${event.Files[0].Uri}">
+                    <p>${other.MainCategory.Name}</p>
                 </div>
             `;
                 console.log(other.Name)
             }
         }
     }
-    html += `</div>`;
+    html += `</div></div>`;
     document.querySelector("#detailViewContainer").innerHTML = html;
     navigateTo("detailView");
 }
@@ -225,9 +228,65 @@ function addtoFavoriteList(id) {
         <p>${event.Name}</p>
     `;
     }
+    
+}
+
+// Show favorite list
+function appendFavorites(events){
+    let html;
+    for(let event of events) {
+    if(favoriteList.includes(event.Id)){
+        html += `
+        <p>${event.Name}</p>
+        `;
+    }
+}
     document.querySelector("#favorites").innerHTML = html;
 }
 
-favoriteList.push("Hey", "hey")
-
-console.log(favoriteList);
+// Underkategorier
+function appendPlacestoeat(events){
+    let html = "<h2>Popular</h2>";
+    for(let event of events){
+        if (event.MainCategory.Name === "Places to eat"){  
+        document.querySelector("#eat_event").innerHTML += `
+        <article onclick="showDetailView('${event.Id}')">
+        <div>
+        <p>${event.Name}</p>
+        <img src="${singleImage(event)}">
+        </div>
+        </article>
+        `;
+    }
+    else if (event.MainCategory.Name === "Activities"){  
+        document.querySelector("#activities_event").innerHTML += `
+        <article onclick="showDetailView('${event.Id}')">
+        <div>
+        <p>${event.Name}</p>
+        <img src="${singleImage(event)}">
+        </div>
+        </article>
+        `;
+    }
+    else if (event.MainCategory.Name === "Attractions"){  
+        document.querySelector("#attractions_event").innerHTML += `
+        <article onclick="showDetailView('${event.Id}')">
+        <div>
+        <p>${event.Name}</p>
+        <img src="${singleImage(event)}">
+        </div>
+        </article>
+        `;
+    }
+    else if (event.MainCategory.Name === "Events"){  
+        document.querySelector("#event_event").innerHTML += `
+        <article onclick="showDetailView('${event.Id}')">
+        <div>
+        <p>${event.Name}</p>
+        <img src="${singleImage(event)}">
+        </div>
+        </article>
+        `;
+    }
+}
+}
