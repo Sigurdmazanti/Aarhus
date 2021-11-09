@@ -228,7 +228,7 @@ function addtoFavoriteList(id) {
         <p>${event.Name}</p>
     `;
     }
-    
+    document.querySelector("#favorites").innerHTML = html;
 }
 
 // Show favorite list
