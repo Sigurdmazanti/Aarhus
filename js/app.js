@@ -41,28 +41,30 @@ fetchCategories();
 //     document.querySelector("#event").innerHTML = htmlEvents + htmlImg;
 // }
 
-      function getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(showPosition, showError, showDetailView);
-        } else {
-          div.innerHTML = "Your browser does not support geolocation. ";
-        }
-      }
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError, showDetailView);
+    } else {
+        div.innerHTML = "Your browser does not support geolocation. ";
+    }
+}
 
-      function showPosition(position) {
-        let userCoordLong = position.coords.latitude;
-        let userCoordLat = position.coords.longitude;
-        // console.log(userCoordLat);
-        // console.log(userCoordLong);
-        console.log((calcCrow(userCoordLong, userCoordLat, 59.3225525, 13.4619422).toFixed(1)));
-      }
+function showPosition(position) {
+    let userCoordLong = position.coords.latitude;
+    let userCoordLat = position.coords.longitude;
+    for (const coordinate of _visitDenmarkData) {
+        let eventLong = coordinate.Address.GeoCoordinate.Longitude;
+        let eventLat = coordinate.Address.GeoCoordinate.Latitude;
+        console.log(calcCrow(userCoordLong, userCoordLat, eventLat, eventLong).toFixed(1));
+    }
+}
 
-      function showError(error) {
-        if(error.PERMISSION_DENIED){
-            alert('Geolocation requested denied. Check your browser settings or give the browser permission to track your location.')
-        }
-      }
-      getLocation();
+function showError(error) {
+    if (error.PERMISSION_DENIED) {
+        alert('Geolocation requested denied. Check your browser settings or give the browser permission to track your location.')
+    }
+}
+getLocation();
 
 
 function calcCrow(lat1, lon1, lat2, lon2) {
@@ -98,13 +100,14 @@ function appendEvents(events) {
     let htmlEvents = "";
     for (let event of events) {
         htmlEvents += /*html*/ `
-        <article onclick="showDetailView('${event.Id}')">
-        <div>
-          <p>${event.Name}</p>
-          <img src="${singleImage(event)}">
-            </div>
-            </article> 
-            `;
+    <article onclick="showDetailView('${event.Id}')">
+    <div>
+    <p>${event.Name}</p>
+    <img src="${singleImage(event)}">
+    <p>${getLocation(event)}</p>
+    </div>
+    </article>
+    `;
     }
     document.querySelector("#event").innerHTML = htmlEvents;
 }
@@ -136,7 +139,7 @@ function search(searchValue) {
 
 
 //Detail View
-function showDetailView(id){
+function showDetailView(id) {
     let html = ""
     const event = _visitDenmarkData.find(event => event.Id == id);
     html += `
@@ -152,32 +155,31 @@ function showDetailView(id){
     <h3>You might also like..</h3>
     <div id="related">
     `;
-    if(event.RelatedProducts.length > 0){
-        for (let related of event.RelatedProducts){
-        html += `
+    if (event.RelatedProducts.length > 0) {
+        for (let related of event.RelatedProducts) {
+            html += `
             <div class="relatedproducts" onclick="showDetailView(${related.Id})">
                 <p>${related.Name}</p>
         `;
-            for (let event of _visitDenmarkData){
-                if(related.Id == event.Id){
-                html +=`
+            for (let event of _visitDenmarkData) {
+                if (related.Id == event.Id) {
+                    html += `
                     <img src="${event.Files[0].Uri}">
                     </div>
                 `;
                 }
             }
         }
-    }
-    else {
-        for(let other of _visitDenmarkData){
-            if(other.Category.Id == event.Category.Id){
-                html +=`
+    } else {
+        for (let other of _visitDenmarkData) {
+            if (other.Category.Id == event.Category.Id) {
+                html += `
                 <div class="relatedproducts" onclick="showDetailView(${other.Id})">
                     <p>${other.Name}</p>
                     <img src="${event.Files[0].Uri}">
                 </div>
             `;
-            console.log(other.Name)
+                console.log(other.Name)
             }
         }
     }
@@ -205,21 +207,20 @@ function showDetailView(id){
 // Add to favourites
 let favoriteList = [];
 
-function addtoFavoriteList(id){
+function addtoFavoriteList(id) {
     let html = "";
     const event = _visitDenmarkData.find(event => event.Id == id);
-    if(favoriteList.includes(event.Id)){
+    if (favoriteList.includes(event.Id)) {
         favoriteList.splice("event.Id")
-    }
-    else {
-    favoriteList.push(event.Id)
+    } else {
+        favoriteList.push(event.Id)
     }
     console.log(favoriteList)
     html += `
         <h1>Your Favorites</h1>
         <div class="scrollable">
     `;
-    for(id of favoriteList){
+    for (id of favoriteList) {
         html += `
         <p>${event.Name}</p>
     `;
