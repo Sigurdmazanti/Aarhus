@@ -5,8 +5,8 @@
 /* ===================== Fonts ===================== */ 
 @font-face {
     font-family: 'bold';
-    src: url('visitdenmark-bold-webfont.woff2') format('woff2'),
-        url('visitdenmark-bold-webfont.woff') format('woff');
+    src: url('../fonts/visitdenmark-bold-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-bold-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -14,48 +14,48 @@
 
 @font-face {
     font-family: 'extrabold';
-    src: url('visitdenmark-extrabold-webfont.woff2') format('woff2'),
-        url('visitdenmark-extrabold-webfont.woff') format('woff');
+    src: url('../fonts/visitdenmark-extrabold-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-extrabold-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'medium';
-    src: url('visitdenmark-medium-webfont.woff2') format('woff2'),
-        url('visitdenmark-medium-webfont.woff') format('woff');
+    src: url('../fonts/visitdenmark-medium-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-medium-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'outlinemedium';
-    src: url('visitdenmark-outline-medium-webfont.woff2') format('woff2'),
-        url('visitdenmark-outline-medium-webfont.woff') format('woff');
+    src: url('../fonts/visitdenmark-outline-medium-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-outline-medium-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'outlineregular';
-    src: url('visitdenmark-outline-regular-webfont.woff2') format('woff2'),
-        url('visitdenmark-outline-regular-webfont.woff') format('woff');
+    src: url('../fonts/visitdenmark-outline-regular-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-outline-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'regular';
-    src: url('visitdenmark-regular-webfont.woff2') format('woff2'),
-        url('visitdenmark-regular-webfont.woff') format('woff');
+    src: url('../fonts/visitdenmark-regular-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'semibold';
-    src: url('visitdenmark-semibold-webfont.woff2') format('woff2'),
-        url('visitdenmark-semibold-webfont.woff') format('woff');
+    src: url('../fonts/visitdenmark-semibold-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-semibold-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -78,14 +78,16 @@
 	scroll-behavior: smooth;
 }
 
+img {
+    max-width: 100%;
+}
+
+
 /* ===================== Global styling ===================== */
 body {
     background-color: var(--white);
 }
 
-h1 {
-    font-family: 'bold';
-}
 
 /* =======================
    NAVIGATION
@@ -121,10 +123,22 @@ h1 {
   }
 /* ===================== Landing page/Home ===================== */ 
 .home_hero {
-    height: 40vh;
     background-color: var(--blue);
     color: var(--white);
     border-radius: 0px 0px 15px 15px;
+    font-family: 'bold';
+}
+
+.home_hero h1 {
+    height: 50%;
+    width: 100%;
+    text-align: center;
+}
+
+.home_hero h2 {
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    margin-bottom: 27px;
 }
 
 .fa-stack {
@@ -136,6 +150,7 @@ h1 {
 
 .user_profile_icon {
     text-align: right;
+    margin-bottom: 5px;
 }
 
 .home_hero_text {
@@ -144,20 +159,17 @@ h1 {
     width: 100%;
 }
 
-.home_hero h2 {
-    text-transform: uppercase;
-}
-
 .searchbar {
     border: none;
     padding: 10px 5px 10px 10px;
     width: 100%;
     border-radius: 5px;
+    margin-bottom: 23px;
 }
 
 input[type="search"] {
-    font-family: "Font Awesome 5 Free", "FontAwesome";
-    font-size: 1em;
+    font-family: "Font Awesome 5 Free", "FontAwesome", 'semibold';
+    font-size: clamp(10px, 3vw, 20px);
     font-weight: 900;
     color: var(--blue);
 }
@@ -165,6 +177,7 @@ input[type="search"] {
 .home_hero_categories {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 23px;
 }
 
 .home_hero_categories li {
@@ -178,7 +191,7 @@ input[type="search"] {
     padding: 20px 5px 20px 5px;
     border-radius: 3px;
     text-transform: uppercase;
-    font-size: 0.6rem;
+    font-size : clamp(10px, 2vw, 25px);
     word-break: break-word;
 }
 
@@ -195,22 +208,11 @@ input[type="search"] {
     color: var(--white);
 }
 
-img {
-    max-width: 100%;
-}
-
-
-.groen {
-    width: 200px;
-    height: 200px;
-    background-color: green;
-}
-
-.map {
-    height: 400px;
-    width: 600px;
-}
-
 #viewmore {
     display: none;
+}
+
+/* ===================== Global category styling ===================== */ 
+.event_hero img {
+    border-radius: 0px 0px 15px 15px;
 }

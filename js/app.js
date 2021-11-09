@@ -21,7 +21,6 @@ async function fetchCategories() {
 }
 fetchCategories();
 
-
 // function appendEventsImages(events) {
 //     let htmlEvents = "";
 //     let htmlImg = "";
@@ -46,15 +45,15 @@ fetchCategories();
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(showPosition, showError, showDetailView);
         } else {
-          div.innerHTML = "The Browser Does not Support Geolocation";
+          div.innerHTML = "Your browser does not support geolocation. ";
         }
       }
 
       function showPosition(position) {
         let userCoordLong = position.coords.latitude;
         let userCoordLat = position.coords.longitude;
-        console.log(userCoordLat);
-        console.log(userCoordLong);
+        // console.log(userCoordLat);
+        // console.log(userCoordLong);
         console.log((calcCrow(userCoordLong, userCoordLat, 59.3225525, 13.4619422).toFixed(1)));
       }
 
@@ -84,6 +83,16 @@ function toRad(Value) {
     return Value * Math.PI / 180;
 }
 
+function singleImage(events) {
+    let imageUrl = "";
+    if (events.Files.length == 0) {
+        imageUrl = "http://www.mandysam.com/img/random.jpg";
+    } else {
+        imageUrl = events.Files[0].Uri;
+    }
+    return imageUrl;
+}
+
 
 function appendEvents(events) {
     let htmlEvents = "";
@@ -99,16 +108,6 @@ function appendEvents(events) {
     }
     document.querySelector("#event").innerHTML = htmlEvents;
 }
-function singleImage(events) {
-    let imageUrl = "";
-    if (events.Files.length == 0) {
-        imageUrl = "http://www.mandysam.com/img/random.jpg";
-    } else {
-        imageUrl = events.Files[0].Uri;
-    }
-    return imageUrl;
-}
-
 
 // Search for name or category (cafe, bar)
 function search(searchValue) {
@@ -125,6 +124,16 @@ function search(searchValue) {
     }
     appendEvents(results);
 }
+
+// function mainCategory(category) {
+//     let categoryResult = [];
+//     for (const categoryEvent of _visitDenmarkData) {
+//         let category = categoryEvent.MainCategory.Name;
+//         if ()
+//     }
+// }
+
+
 
 //Detail View
 function showDetailView(id){
@@ -221,53 +230,3 @@ function addtoFavoriteList(id){
 favoriteList.push("Hey", "hey")
 
 console.log(favoriteList);
-
-
-// let map;
-//       function haversine_distance(mk1, mk2) {
-//       let R = 6371.0710; // Radius of the Earth in km
-//       let rlat1 = mk1.position.lat() * (Math.PI/180); // Convert degrees to radians
-//       let rlat2 = mk2.position.lat() * (Math.PI/180); // Convert degrees to radians
-//       let difflat = rlat2-rlat1; // Radian difference (latitudes)
-//       let difflon = (mk2.position.lng()-mk1.position.lng()) * (Math.PI/180); // Radian difference (longitudes)
-
-//       let d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
-//       return d;
-//     }
-
-
-/* Distance */
-// function initMap(/*position*/) {
-//   // The map, centered on Central Park
-//   if (navigator.geolocation) {
-//     navigator.geolocation.getCurrentPosition(initMap);
-//   const center = {
-//       lat: 40.774102, lng: -73.971734
-//     };
-
-//   const options = {zoom: 15, scaleControl: true, center: center};
-//   map = new google.maps.Map(
-//       document.querySelectorAll(".map"), options);
-//   // Locations of landmarks
-// //   let dakota = {lat: position.coords.latitude, lng: position.coords.longitude};
-// let dakota = {lat: 56.14865019, lng: 10.2031846};
-//   let frick = {lat: 56.14865019, lng: 10.2031846};
-//   // The markers for The Dakota and The Frick Collection
-//   let mk1 = new google.maps.Marker({position: dakota, map: map});
-//   let mk2 = new google.maps.Marker({position: frick, map: map});
-
-//   // Draw a line showing the straight distance between the markers
-//   let line = new google.maps.Polyline({path: [dakota, frick], map: map});
-//   // Calculate and display the distance between markers
-//   let distance = haversine_distance(mk1, mk2);
-//   document.querySelectorAll('.msg').innerHTML = "Distance between markers: " + distance.toFixed(2) + " km."
-//   }
-
-//   else {
-//       alert('Geolocation requested denied. Check your browser settings or give the browser permission to track your location.')
-//   }
-// }
-
-// // HTML :             <script async
-// src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVIlSg_mFP61-qnnvET5HQOEf1bDKYbYY&callback=initMap">
-// </script>
