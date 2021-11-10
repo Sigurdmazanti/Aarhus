@@ -11,7 +11,7 @@ async function fetchAllData() {
     _visitDenmarkData = data;
     appendEvents(_visitDenmarkData);
     appendPlacestoeat(_visitDenmarkData);
-    appendFavorites(_visitDenmarkData)
+    appendForside(_visitDenmarkData);
 }
 fetchAllData();
 
@@ -61,23 +61,38 @@ function toRad(Value) {
     return Value * Math.PI / 180;
 }
 
+function categoryImage(event) {
+    let imageCategory = "";
+    if (event.MainCategory.Name === "Places to eat") {
+        imageCategory = "../img/placesToEat_ph.png";
+        
+    } else if (event.MainCategory.Name === "Attractions") {
+        imageCategory = "../img/attractions_ph.png";
+    }
+    else if (event.MainCategory.Name === "Events") {
+        imageCategory = "../img/events_ph.png";
+    }
+    else if (event.MainCategory.Name === "Activities") {
+        imageCategory = "../img/activities_ph.png";
+    }
+    return imageCategory;
+}
+
 function singleImage(events) {
     let imageUrl = "";
     if (events.Files.length == 0) {
-        imageUrl = "http://www.mandysam.com/img/random.jpg";
+        imageUrl = categoryImage(events);
     } else {
         imageUrl = events.Files[0].Uri;
     }
     return imageUrl;
 }
 
-function appendEvents(events, position) {
+function appendEvents(events) {
     let htmlEvents = "";
-    // let userCoordLong = position.coords.latitude;
-    // let userCoordLat = position.coords.longitude;
     for (let event of events) {
         // if (event.Address.GeoCoordinate !== null) {
-        //     console.log(calcCrow(event.Address.GeoCoordinate.Latitude, event.Address.GeoCoordinate.Longitude, userCoordLat, userCoordLong.toFixed(1)));
+        //     console.log(calcCrow(event.Address.GeoCoordinate.Latitude, event.Address.GeoCoordinate.Longitude, userCoordLat, userCoordLong));
         //     }
         htmlEvents += /*html*/ `
     <article onclick="showDetailView('${event.Id}')">
@@ -88,33 +103,47 @@ function appendEvents(events, position) {
     </article>
     `;
     }
-    document.querySelector("#event").innerHTML = htmlEvents;
+    
 }
 
-
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showError, showDetailView, appendEvents);
-    } else {
-        div.innerHTML = "Your browser does not support geolocation. ";
+// Forside
+function appendForside(events){
+    let html = "";
+    for(let event of events){
+        html += `
+        <article onclick="showDetailView('${event.Id}')">
+        <div>
+        <p>${event.Name}</p>
+        <img src="${singleImage(event)}">
+        </div>
+        </article>
+        `;
     }
+    document.querySelector("#event").innerHTML = html;
 }
 
-function showPosition(position) {
-    // for (const coordinate of _visitDenmarkData) {
-        // den her går først let eventLat = coordinate.Address.GeoCoordinate.Latitude;
-    //     let eventLong = coordinate.Address.GeoCoordinate.Longitude;
-    //     
-        // console.log(calcCrow(userCoordLong, userCoordLat, eventLat, eventLong).toFixed(1));
-        console.log(userCoordLong, userCoordLat);
-}
+// async function getLocation() {
+//    if (navigator.geolocation) {
+//         navigator.geolocation.getCurrentPosition(showError, showDetailView, appendPlacestoeat);
+//     } else {
+//         div.innerHTML = "Your browser does not support geolocation. ";
+//     }
+// }
 
-function showError(error) {
-    if (error.PERMISSION_DENIED) {
-        alert('Geolocation requested denied. Check your browser settings or give the browser permission to track your location.')
-    }
-}
-getLocation();
+// function showPosition(position) {
+//         userCoordLong = position.coords.latitude;
+//         userCoordLat = position.coords.longitude;
+        
+//         console.log(calcCrow(userCoordLat, userCoordLong, eventLat, eventLong).toFixed(1));
+//         console.log(userCoordLong, userCoordLat);
+// }
+
+// function showError(error) {
+//     if (error.PERMISSION_DENIED) {
+//         alert('Geolocation requested denied. Check your browser settings or give the browser permission to track your location.')
+//     }
+// }
+// getLocation();
 
 // Search for name or category (cafe, bar)
 function search(searchValue) {
@@ -129,7 +158,7 @@ function search(searchValue) {
             results.push(searchedEvent);
         }
     }
-    appendEvents(results);
+    appendForside(results);
 }
 
 // function mainCategory(category) {
@@ -148,14 +177,23 @@ function search(searchValue) {
 function showDetailView(id) {
     let html = ""
     const event = _visitDenmarkData.find(event => event.Id == id);
+    if (event.Files.length == 0) {
+        html +=`<img src="${singleImage(event)}">`
+    } else {
+        html += `
+    <img src="${singleImage(event)}">`
+    }
     html += `
-    <img src="${singleImage(event)}">
     <div class="detail-info">
-    <button onclick="addtoFavoriteList(${event.Id})">Add</button>
+    <div class="flex">
     <h2>${event.Name}</h2>
+    <i class="fas fa-heart" class="favorite-btn" onclick="addtoFavoriteList(${event.Id})"></i>
+    </div>
     <p>${event.Descriptions[0].Text.substring(0,200)}...</p>
+    <div id="adress-detail">
     <p>${event.Address.AddressLine1} </p>
     <p>${event.Address.PostalCode}, ${event.Address.City}</p>
+    </div>
     <a href="${event.CanonicalUrl}">More info</a>
     <h3>You might also like..</h3>
     <div id="related">
@@ -163,17 +201,23 @@ function showDetailView(id) {
     if (event.RelatedProducts.length > 1) {
         for (let related of event.RelatedProducts) {
             html += `
-            <div class="relatedproducts" onclick="showDetailView(${related.Id})">
-                
+            <div class="relatedproducts" onclick="showDetailView(${related.Id})">  
         `;
             for (let event of _visitDenmarkData) {
                 if (related.Id == event.Id) {
+                    if(event.Files.length > 0){
                     html += `
                     <img src="${event.Files[0].Uri}">
-                    <p>${event.Name}</p>
-                    <p>${event.MainCategory.Name}</p>
-                    </div>
                 `;
+                 }
+                 else {
+                    html +=`<img src="${singleImage(event)}">`
+                 }
+                 html += `
+                 <p>${event.Name}</p>
+                 <p class="lightblue">${event.MainCategory.Name}</p>
+                 </div>
+             `;
                 }
             }
         }
@@ -181,10 +225,16 @@ function showDetailView(id) {
         for (let other of _visitDenmarkData) {
             if (other.Category.Id == event.Category.Id) {
                 html += `
-                <div class="relatedproducts" onclick="showDetailView(${other.Id})">
-                    <img src="${other.Files[0].Uri}">
-                    <p>${other.Name}</p>
-                    <p>${other.MainCategory.Name}</p>
+                <div class="relatedproducts" onclick="showDetailView(${other.Id})">`
+                if (other.Files.length == 0) {
+                    html +=`<img src="${singleImage(event)}">`
+                } else {
+                    html += `
+                    <img src="${other.Files[0].Uri}">`
+                }
+                html += 
+                   `<p>${other.Name}</p>
+                    <p class="lightblue">${other.MainCategory.Name}</p>
                 </div>
             `;
                 console.log(other.Name)
@@ -216,82 +266,172 @@ function showDetailView(id) {
 let favoriteList = [];
 
 function addtoFavoriteList(id) {
-    let html = "";
     const event = _visitDenmarkData.find(event => event.Id == id);
-    if (favoriteList.includes(event.Id)) {
-        favoriteList.splice("event.Id")
-    } else {
+    // if (favoriteList.includes(event.Id)) {
+    //     favoriteList = favoriteList.filter((event) => event.Id != id);
+    // } 
+    if(favoriteList.indexOf(event.Id) !== -1) {
+        favoriteList.splice(favoriteList.indexOf(event.Id), 1);
+    }
+    else {
         favoriteList.push(event.Id)
     }
-    console.log(favoriteList)
-    html += `
-        <h1>Your Favorites</h1>
-        <div class="scrollable">
-    `;
-    for (id of favoriteList) {
-        html += `
-        <p>${event.Name}</p>
-    `;
-    }
-    document.querySelector("#favorites").innerHTML = html;
+    // console.log(favoriteList)
+    appendFavorites();
+    console.log(localStorage)
 }
 
 // Show favorite list
-function appendFavorites(events){
+function appendFavorites(){
     let html;
-    for(let event of events) {
+    html += `
+    <h1>Your Favorites</h1>
+    <div class="scrollable">`;
+    for(let event of _visitDenmarkData) {
     if(favoriteList.includes(event.Id)){
         html += `
-        <p>${event.Name}</p>
+        <div class="relatedproducts" onclick="showDetailView('${event.Id}')">`
+        if (event.Files.length == 0) {
+            html +=`<img src="http://www.mandysam.com/img/random.jpg">`
+        } else {
+            html += `
+        <img src="${singleImage(event)}">`
+        }
+        html +=
+        `<div class="flex"><p>${event.Name}</p>
+        <i class="far fa-bookmark fa-2x favorite-btn" onclick="addtoFavoriteList(${event.Id})"></i>
+        </div>
+        </div>
         `;
+        console.log(event.Name)
     }
+    html += `</div>`
+}
+if(favoriteList.length === 0){
+    html +=`<p>Add events to favorite list..</p>`
 }
     document.querySelector("#favorites").innerHTML = html;
 }
+appendFavorites();
 
 // Underkategorier
 function appendPlacestoeat(events){
     let html = "<h2>Popular</h2>";
     for(let event of events){
         if (event.MainCategory.Name === "Places to eat"){  
-        document.querySelector("#eat_event").innerHTML += `
-        <article onclick="showDetailView('${event.Id}')">
-        <div>
-        <p>${event.Name}</p>
+        document.querySelector("#eat_event").innerHTML += /*html*/ `
+        <article class="category_card" onclick="showDetailView('${event.Id}')">
+        <span class="fa-stack close_button">
+        <i class="close_circle fas fa-circle fa-stack-2x"></i>
+        <i class="close_times fas fa-times fa-stack-1x"></i>
+        </span>
         <img src="${singleImage(event)}">
+        <div class="category_text">
+        <div class="category_box_1">
+        <h3>${event.Name}</h3>
+        <address>${event.Address.AddressLine1}, ${event.Address.PostalCode} ${event.Address.City}</address>
+        </div>
+        <div class="category_box_2">
+        <p>${event.Descriptions[0].Text.substring(0,100)}... <span>Læs mere</span></p>
+        </div>
+        <div class="category_box_3">
+        <div class="category_spec_category">${event.Category.Name} <i class="far fa-bookmark fa-2x favorite-btn" onclick="addtoFavoriteList(${event.Id})"></i></div>
+        </div>
         </div>
         </article>
         `;
     }
     else if (event.MainCategory.Name === "Activities"){  
-        document.querySelector("#activities_event").innerHTML += `
-        <article onclick="showDetailView('${event.Id}')">
-        <div>
-        <p>${event.Name}</p>
+        document.querySelector("#activities_event").innerHTML += /*html*/ `
+        <article class="category_card" onclick="showDetailView('${event.Id}')">
         <img src="${singleImage(event)}">
+        <div class="category_text">
+        <h3>${event.Name}</h3>
+        <address>${event.Address.AddressLine1}, ${event.Address.PostalCode} ${event.Address.City}</address>
         </div>
+        
         </article>
         `;
     }
     else if (event.MainCategory.Name === "Attractions"){  
-        document.querySelector("#attractions_event").innerHTML += `
-        <article onclick="showDetailView('${event.Id}')">
-        <div>
-        <p>${event.Name}</p>
+        document.querySelector("#attractions_event").innerHTML += /*html*/ `
+        <article class="category_card" onclick="showDetailView('${event.Id}')">
         <img src="${singleImage(event)}">
+        <div class="category_text">
+        <h3>${event.Name}</h3>
+        <address>${event.Address.AddressLine1}, ${event.Address.PostalCode} ${event.Address.City}</address>
         </div>
+        
         </article>
         `;
     }
     else if (event.MainCategory.Name === "Events"){  
-        document.querySelector("#event_event").innerHTML += `
-        <article onclick="showDetailView('${event.Id}')">
-        <div>
-        <p>${event.Name}</p>
+        document.querySelector("#event_event").innerHTML += /*html*/ `
+        <article class="category_card" onclick="showDetailView('${event.Id}')">
         <img src="${singleImage(event)}">
+        <div class="category_text">
+        <h3>${event.Name}</h3>
+        <address>${event.Address.AddressLine1}, ${event.Address.PostalCode} ${event.Address.City}</address>
         </div>
+        
         </article>
         `;
     }
 }
 }
+
+
+
+// function appendFavDrinks() {
+//     let htmlFav = "";
+//     for (const drink of _favDrinks) {
+//       htmlFav += /*html*/ `
+//         <article class="favorite-card" onclick="showDrink('${drink.id}')">
+//           <img src="${drink.img}">
+//           <h2>${drink.name} (${drink.strength})</h2>
+//           <p>${generateFavDrinkButton(drink.id)}</p>
+//         </article>
+//       `;
+//     }
+//     // hvis der ikke er nogle favoritiseret drink, fortæller vi brugeren det
+//     // Sigurd, Rune
+//     if (_favDrinks.length === 0) {
+//       htmlFav = "<p>No drinks added to favorites</p>";
+//     }
+//     document.querySelector("#fav-drink-container").innerHTML = htmlFav;
+//   }
+  
+//   // Vi genererer "tilføj til favorit" hjerte-knappen og displayer i DOM'en
+//   // Sigurd, Rune
+//   function generateFavDrinkButton(drinkId) {
+//     let btnTemplate = `
+//       <i class="far fa-heart" onclick="addToFavourites('${drinkId}')"></i>`;
+//     if (isFavDrink(drinkId)) {
+//       btnTemplate = `
+//         <i class="fas fa-heart" id="redheart" onclick="removeFromFavourites('${drinkId}')" class="rm"></i>`;
+//     }
+//     return btnTemplate;
+//   }
+  
+//   // Appender  drink ud fra det valgte ID
+//   // Sigurd, Rune
+//   function addToFavourites(drinkId) {
+//     let favdrink = _drinks.find((drink) => drink.id == drinkId);
+//     _favDrinks.push(favdrink);
+//     showDrink(drinkId);
+//     appendFavDrinks(); // "skyder" den valgte drink ind i funktionen der står for at append de favoritiserede drinks
+//   }
+  
+//   // Fjerner drink igen, ud fra givet ID
+//   // Sigurd, Rune
+//   function removeFromFavourites(drinkId) {
+//     _favDrinks = _favDrinks.filter((drink) => drink.id != drinkId);
+//     showDrink(drinkId);
+//     appendFavDrinks(); // vi opdatere igen den ansvarlige append-funktion, og fjerner drinken
+//   }
+  
+//   // Tjekker om det globale favDrinks array har et ID der matcher
+//   // Sigurd, Rune
+//   function isFavDrink(drinkId) {
+//     return _favDrinks.find((drink) => drink.id == drinkId); // checking if _favMovies has the movie with matching id or not
+//   }

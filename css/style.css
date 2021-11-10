@@ -82,12 +82,26 @@ img {
     max-width: 100%;
 }
 
+address {
+    text-decoration: none;
+    font-style: normal;
+}
 
 /* ===================== Global styling ===================== */
 body {
     background-color: var(--white);
 }
-
+p, a {
+    font-family: regular;
+    color: var(--blue);
+}
+h2, h1, h3 {
+    font-family: bold;
+    color: var(--blue);
+}
+.lightblue {
+    color:var(--lightblue);
+}
 
 /* =======================
    NAVIGATION
@@ -141,7 +155,7 @@ body {
     margin-bottom: 27px;
 }
 
-.fa-stack {
+.user_profile_icon_stack {
     margin: 5px 5px 0px 0px;
     vertical-align: middle;
     font-size: 1.2rem;
@@ -206,6 +220,7 @@ input[type="search"] {
 .home_hero_categories li a {
     text-decoration: none;
     color: var(--white);
+    display: inline-block;
 }
 
 #viewmore {
@@ -226,7 +241,7 @@ input[type="search"] {
     color: var(--white);
     margin: 1em 0;
 }
-.related {
+#related {
     width: 100%;
     padding-top: 2%;
     margin-bottom: 2em;
@@ -236,6 +251,7 @@ input[type="search"] {
 }
 .relatedproducts {
     max-width: 100%;
+    min-width: 200px;
     margin-right: 10px;
     display: block;
     background-color: lightgrey;
@@ -247,8 +263,97 @@ input[type="search"] {
     border-radius: 5px;
 }
 
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.flex i {
+    font-size: 1.5em;
+    margin-right: 0.5em;
+}
+.flex h2 {
+    max-width: 90%;
+}
+#adress-detail {
+    margin-top: 10px;
+}
+
 
 /* ===================== Global category styling ===================== */ 
 .event_hero img {
     border-radius: 0px 0px 15px 15px;
 }
+
+.category_card {
+     background-color: var(--gray);
+     color: var(--black);
+     position: relative;
+     margin: 25px 20px 25px 20px;
+     display: flex;
+     border-radius: 3px;
+     padding: 10px 0px 10px 0px;
+}
+
+.category_card img {
+    min-width: 110px;
+    max-width: 110px;
+    height: 100px;
+    border-radius: 3px;
+    margin: 0px 24px 0px 17px;
+}
+
+.category_card h3 {
+    font-family: 'semibold';
+}
+
+.category_text {
+    display: flex;
+    flex-direction: column;
+    font-family: 'regular';
+    font-size: 9px;
+    justify-content: space-between;
+    margin-right: 10px;
+    width: 100%;
+}
+
+.category_text .category_box_2 span {
+    text-decoration: underline;
+}
+
+.category_box_2 p {
+    color: var(--black);
+    word-break: break-word;
+    width: 100%;
+}
+
+.category_spec_category {
+    text-transform: uppercase;
+    color: var(--blue);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.category_spec_category i {
+    color: var(--white);
+}
+
+.close_button {
+    /* !important because fontawesome styling has position:relative */
+    position: absolute !important;
+    top: -10px;
+    right: -15px;
+}
+
+.close_circle {
+    color: var(--blue);
+}
+
+.close_times {
+    color: var(--white);
+}
+/* ===================== Category styling ===================== */ 
