@@ -43,31 +43,6 @@ fetchCategories();
 //     document.querySelector("#event").innerHTML = htmlEvents + htmlImg;
 // }
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError, showDetailView);
-    } else {
-        div.innerHTML = "Your browser does not support geolocation. ";
-    }
-}
-
-function showPosition(position) {
-    let userCoordLong = position.coords.latitude;
-    let userCoordLat = position.coords.longitude;
-    for (const coordinate of _visitDenmarkData) {
-        let eventLong = coordinate.Address.GeoCoordinate.Longitude;
-        let eventLat = coordinate.Address.GeoCoordinate.Latitude;
-        console.log(calcCrow(userCoordLong, userCoordLat, eventLat, eventLong).toFixed(1));
-    }
-}
-
-function showError(error) {
-    if (error.PERMISSION_DENIED) {
-        alert('Geolocation requested denied. Check your browser settings or give the browser permission to track your location.')
-    }
-}
-getLocation();
-
 function calcCrow(lat1, lon1, lat2, lon2) {
     var R = 6371; // km
     var dLat = toRad(lat2 - lat1);
@@ -96,9 +71,14 @@ function singleImage(events) {
     return imageUrl;
 }
 
-function appendEvents(events) {
+function appendEvents(events, position) {
     let htmlEvents = "";
+    // let userCoordLong = position.coords.latitude;
+    // let userCoordLat = position.coords.longitude;
     for (let event of events) {
+        // if (event.Address.GeoCoordinate !== null) {
+        //     console.log(calcCrow(event.Address.GeoCoordinate.Latitude, event.Address.GeoCoordinate.Longitude, userCoordLat, userCoordLong.toFixed(1)));
+        //     }
         htmlEvents += /*html*/ `
     <article onclick="showDetailView('${event.Id}')">
     <div>
@@ -110,6 +90,31 @@ function appendEvents(events) {
     }
     document.querySelector("#event").innerHTML = htmlEvents;
 }
+
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showError, showDetailView, appendEvents);
+    } else {
+        div.innerHTML = "Your browser does not support geolocation. ";
+    }
+}
+
+function showPosition(position) {
+    // for (const coordinate of _visitDenmarkData) {
+        // den her går først let eventLat = coordinate.Address.GeoCoordinate.Latitude;
+    //     let eventLong = coordinate.Address.GeoCoordinate.Longitude;
+    //     
+        // console.log(calcCrow(userCoordLong, userCoordLat, eventLat, eventLong).toFixed(1));
+        console.log(userCoordLong, userCoordLat);
+}
+
+function showError(error) {
+    if (error.PERMISSION_DENIED) {
+        alert('Geolocation requested denied. Check your browser settings or give the browser permission to track your location.')
+    }
+}
+getLocation();
 
 // Search for name or category (cafe, bar)
 function search(searchValue) {
