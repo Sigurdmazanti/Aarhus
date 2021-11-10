@@ -1,4 +1,152 @@
+<<<<<<< Updated upstream
 body {
+=======
+/* =======================
+   GLOBAL
+   ======================= */
+
+/* ===================== Fonts ===================== */ 
+@font-face {
+    font-family: 'bold';
+    src: url('../fonts/visitdenmark-bold-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'extrabold';
+    src: url('../fonts/visitdenmark-extrabold-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-extrabold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'medium';
+    src: url('../fonts/visitdenmark-medium-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'outlinemedium';
+    src: url('../fonts/visitdenmark-outline-medium-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-outline-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'outlineregular';
+    src: url('../fonts/visitdenmark-outline-regular-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-outline-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'regular';
+    src: url('../fonts/visitdenmark-regular-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'semibold';
+    src: url('../fonts/visitdenmark-semibold-webfont.woff2') format('woff2'),
+        url('../fonts/visitdenmark-semibold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* ===================== Root variables ===================== */ 
+:root {
+    --red: #E70013;
+    --blue: #022B52;
+    --gray: #CED2D3;
+    --black: #000000;
+    --white: #FFFFFF;
+    --lightblue: #00587A;
+}
+
+/* ===================== Reset ===================== */
+* {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	scroll-behavior: smooth;
+}
+
+img {
+    max-width: 100%;
+}
+
+
+/* ===================== Global styling ===================== */
+body {
+    background-color: var(--white);
+}
+p, a {
+    font-family: regular;
+    color: var(--blue);
+}
+h2, h1, h3 {
+    font-family: bold;
+    color: var(--blue);
+}
+.lightblue {
+    color:var(--lightblue);
+}
+
+/* =======================
+   NAVIGATION
+   ======================= */
+
+/* ===================== Nav bar bottom ===================== */ 
+.tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--blue);
+}
+
+.tabbar a {
+    color: var(--white);
+    padding: 6px 0px;
+    text-decoration: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .tabbar a.active, .tabbar a:hover {
+    background-color: var(--white);
+    color: var(--blue);
+  }
+/* ===================== Landing page/Home ===================== */ 
+.home_hero {
+    background-color: var(--blue);
+    color: var(--white);
+    border-radius: 0px 0px 15px 15px;
+    font-family: 'bold';
+}
+
+.home_hero h1 {
+    height: 50%;
+    width: 100%;
+>>>>>>> Stashed changes
     text-align: center;
     background-color: khaki;
 }
@@ -18,5 +166,66 @@ body {
 }
 #viewmore {
     display: none;
+}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+/* Detail view */
+.detail-info {
+    padding: 2%;
+    margin-bottom: 40px
+}
+.detail-info a {
+    width: 30%;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    padding: 12px 16px;
+    background-color: var(--blue);
+    color: var(--white);
+    margin: 1em 0;
+}
+#related {
+    width: 100%;
+    padding-top: 2%;
+    margin-bottom: 2em;
+    display: flex;
+    overflow-x: auto;
+    ;
+}
+.relatedproducts {
+    max-width: 100%;
+    min-width: 200px;
+    margin-right: 10px;
+    display: block;
+    background-color: lightgrey;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+.relatedproducts img {
+    border-radius: 5px;
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.flex i {
+    font-size: 1.5em;
+    margin-right: 0.5em;
+}
+.flex h2 {
+    max-width: 90%;
+}
+#adress-detail {
+    margin-top: 10px;
+}
+
+/* ===================== Global category styling ===================== */ 
+.event_hero img {
+    border-radius: 0px 0px 15px 15px;
 }
 >>>>>>> Stashed changes
