@@ -29,6 +29,7 @@ async function fetchCategories() {
 fetchCategories();
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 // Appending to DOM
 function appendEvents(events) {
 =======
@@ -51,6 +52,25 @@ function appendEvents(events) {
 //     }
 //     document.querySelector("#event").innerHTML = htmlEvents + htmlImg;
 // }
+=======
+
+function categoryImage(event) {
+    let imageCategory = "";
+    if (event.MainCategory.Name === "Places to eat") {
+        imageCategory = "../img/placesToEat_ph.png";
+        
+    } else if (event.MainCategory.Name === "Attractions") {
+        imageCategory = "../img/attractions_ph.png";
+    }
+    else if (event.MainCategory.Name === "Events") {
+        imageCategory = "../img/events_ph.png";
+    }
+    else if (event.MainCategory.Name === "Activities") {
+        imageCategory = "../img/activities_ph.png";
+    }
+    return imageCategory;
+}
+>>>>>>> Stashed changes
 
 function singleImage(events) {
     let imageUrl = "";
@@ -87,26 +107,30 @@ function appendEvents(events, position) {
             `;
 >>>>>>> Stashed changes
     }
-    
+    document.querySelector("#event").innerHTML = htmlEvents;
 }
 
 <<<<<<< Updated upstream
 =======
 // Forside
 function appendForside(events){
-    let html = "";
-    for(let event of events){
-        html += `
-        <article onclick="showDetailView('${event.Id}')">
-        <div>
-        <p>${event.Name}</p>
-        <img src="${singleImage(event)}">
-        </div>
-        </article>
-        `;
+    let htmlEvents = "";
+    for (let event of events) {
+        // if (event.Address.GeoCoordinate !== null) {
+        //     console.log(calcCrow(event.Address.GeoCoordinate.Latitude, event.Address.GeoCoordinate.Longitude, userCoordLat, userCoordLong));
+        //     }
+        htmlEvents += /*html*/ `
+    <article onclick="showDetailView('${event.Id}')">
+    <div>
+    <p>${event.Name}</p>
+    <img src="${singleImage(event)}">
+    </div>
+    </article>
+    `;
     }
-    document.querySelector("#event").innerHTML = html;
+    document.querySelector("#calendar").innerHTML = htmlEvents;
 }
+appendForside();
 
 
 >>>>>>> Stashed changes
@@ -134,7 +158,7 @@ function search(searchValue) {
 function showDetailView(id){
 =======
     }
-    appendForside(results);
+    appendEvents(results);
 }
 
 // function mainCategory(category) {
@@ -200,7 +224,7 @@ function showDetailView(id) {
     <h3>You might also like..</h3>
     <div id="related">
     `;
-    if (event.RelatedProducts.length > 1) {
+    if (event.RelatedProducts.length > 0) {
         for (let related of event.RelatedProducts) {
             html += `
             <div class="relatedproducts" onclick="showDetailView(${related.Id})">  
@@ -225,6 +249,7 @@ function showDetailView(id) {
             }
         }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     }
     else {
         for(let other of _visitDenmarkData){
@@ -234,6 +259,9 @@ function showDetailView(id) {
                     <p>${other.Name}</p>
                     <img src="${event.Files[0].Uri}">
 =======
+=======
+        html += `</div>`
+>>>>>>> Stashed changes
     } else {
         for (let other of _visitDenmarkData) {
             if (other.Category.Id == event.Category.Id) {
@@ -254,6 +282,7 @@ function showDetailView(id) {
             console.log(other.Name)
             }
         }
+        html += `</div>`
     }
     html += `</div>`;
     document.querySelector("#detailViewContainer").innerHTML = html;
