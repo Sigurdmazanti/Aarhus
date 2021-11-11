@@ -23,27 +23,6 @@ async function fetchCategories() {
 }
 fetchCategories();
 
-// function appendEventsImages(events) {
-//     let htmlEvents = "";
-//     let htmlImg = "";
-//     for (let event of events) {
-//         htmlEvents += /*html*/ `
-//         <article>
-//         <div>
-//           <p>${event.Name}</p>
-//           `;
-//         for (const eventimg of event.Files) {
-//             htmlEvents += /*html*/ `
-//             <img src="${eventimg.Uri}">
-//             </div>
-//             </article> 
-//             `;
-//         }
-//     }
-//     document.querySelector("#event").innerHTML = htmlEvents + htmlImg;
-// }
-
-
 function categoryImage(event) {
     let imageCategory = "";
     if (event.MainCategory.Name === "Places to eat") {
@@ -75,11 +54,10 @@ function appendEvents(events) {
     let htmlEvents = "";
     for (let event of events) {
         htmlEvents += /*html*/ `
-    <article onclick="showDetailView('${event.Id}')">
-    <div>
-    <p>${event.Name}</p>
+    <article class="places_card" onclick="showDetailView('${event.Id}')">
     <img src="${singleImage(event)}">
-    </div>
+    <p>${event.Name}</p>
+    <p class="lightblue">${event.MainCategory.Name}</p>
     </article>
     `;
     }
@@ -95,7 +73,7 @@ function appendForside(events){
         html += `
         <article class="relatedproducts" onclick="showDetailView('${event.Id}')">
             <img src="${singleImage(event)}">
-            <p>${event.Name}</p>
+            <p>${event.Name.substring(0,25)}</p>
             <p class="lightblue">${event.MainCategory.Name}</p>
         </article>
         `;
@@ -107,7 +85,7 @@ function appendForside(events){
         html += `
         <article class="relatedproducts" onclick="showDetailView('${event.Id}')">
             <img src="${singleImage(event)}">
-            <p>${event.Name}</p>
+            <p>${event.Name.substring(0,25)}</p>
             <p class="lightblue">${event.MainCategory.Name}</p>
         </article>
         `;
@@ -119,7 +97,7 @@ function appendForside(events){
         html += `
         <article class="relatedproducts" onclick="showDetailView('${event.Id}')">
         <img src="${singleImage(event)}">
-        <p>${event.Name}</p>
+        <p>${event.Name.substring(0,25)}</p>
         <p class="lightblue">${event.MainCategory.Name}</p>
         </article>
         `;
@@ -131,7 +109,7 @@ function appendForside(events){
         html += `
         <article class="relatedproducts" onclick="showDetailView('${event.Id}')">
                 <img src="${singleImage(event)}">
-                <p>${event.Name}</p>
+                <p>${event.Name.substring(0,25)}</p>
                 <p class="lightblue">${event.MainCategory.Name}</p>
         </article>
         `;
@@ -143,7 +121,7 @@ function appendForside(events){
         html += `
         <article class="relatedproducts" onclick="showDetailView('${event.Id}')">
         <img src="${singleImage(event)}">
-        <p>${event.Name}</p>
+        <p>${event.Name.substring(0,25)}</p>
         <p class="lightblue">${event.MainCategory.Name}</p>
         </article>
         `;
@@ -205,7 +183,7 @@ function showDetailView(id) {
     </div>
     <a href="${event.CanonicalUrl}">More info</a>
     <h3>You might also like..</h3>
-    <div class="related"></div>
+    <div class="related">
     `;
     if (event.RelatedProducts.length > 1) {
         for (let related of event.RelatedProducts) {
@@ -276,16 +254,13 @@ let favoriteList = [];
 
 function addtoFavoriteList(id) {
     const event = _visitDenmarkData.find(event => event.Id == id);
-    // if (favoriteList.includes(event.Id)) {
-    //     favoriteList = favoriteList.filter((event) => event.Id != id);
-    // } 
+
     if(favoriteList.indexOf(event.Id) !== -1) {
         favoriteList.splice(favoriteList.indexOf(event.Id), 1);
     }
     else {
         favoriteList.push(event.Id)
     }
-    // console.log(favoriteList)
     appendFavorites();
     console.log(localStorage)
 }
