@@ -323,7 +323,8 @@ input[type="search"] {
 .category_card img {
     border-radius: 3px;
     margin: 0px 24px 0px 17px;
-    max-width: 60%;
+    min-width: 100px;
+    max-width: 100px;
 }
 
 .category_card h3, #eat_event h3 {
