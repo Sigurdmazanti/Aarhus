@@ -80,6 +80,7 @@
 
 img {
     max-width: 100%;
+    
 }
 
 address {
@@ -91,6 +92,9 @@ address {
 /* ===================== Global styling ===================== */
 body {
     background-color: var(--white);
+    max-width: 375px;
+    width: 375px;
+    margin: 0 auto;
 }
 p, a {
     font-family: regular;
@@ -162,7 +166,7 @@ h2, h1, h3 {
 .user_profile_icon_stack {
     margin: 5px 5px 0px 0px;
     vertical-align: middle;
-    font-size: 1.2rem;
+    font-size: 1em;
     text-align: right;
 }
 
@@ -205,12 +209,13 @@ input[type="search"] {
     align-items: center;
     text-align: center;
     background-color: var(--red);
-    margin: 10px;
-    padding: 20px 5px 20px 5px;
+    margin: 5px;
+    padding: 25px 10px;
     border-radius: 3px;
     text-transform: uppercase;
-    font-size : clamp(10px, 2vw, 25px);
+    font-size : 0.6em;
     word-break: break-word;
+    
 }
 
 .home_hero_categories li:first-child {
@@ -222,6 +227,7 @@ input[type="search"] {
 }
 
 .home_hero_categories li a {
+    font-family: bold;
     text-decoration: none;
     color: var(--white);
     display: inline-block;
@@ -268,8 +274,9 @@ input[type="search"] {
 }
 .relatedproducts img {
     border-radius: 5px;
-    width:180px;
+    width:100%;
     height: 150px;
+    object-fit: cover;
 }
 
 .flex {
@@ -311,9 +318,6 @@ input[type="search"] {
 }
 
 .category_card img {
-    min-width: 110px;
-    max-width: 110px;
-    height: 100px;
     border-radius: 3px;
     margin: 0px 24px 0px 17px;
 }
