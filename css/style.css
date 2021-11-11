@@ -153,6 +153,7 @@ h2, h1, h3 {
     text-transform: uppercase;
     font-size: 1.4rem;
     margin-bottom: 27px;
+    color: var(--white);
 }
 
 .user_profile_icon_stack {

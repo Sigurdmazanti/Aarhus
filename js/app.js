@@ -43,23 +43,6 @@ fetchCategories();
 //     document.querySelector("#event").innerHTML = htmlEvents + htmlImg;
 // }
 
-function calcCrow(lat1, lon1, lat2, lon2) {
-    var R = 6371; // km
-    var dLat = toRad(lat2 - lat1);
-    var dLon = toRad(lon2 - lon1);
-    var lat1 = toRad(lat1);
-    var lat2 = toRad(lat2);
-
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c;
-    return d;
-}
-// Converts numeric degrees to radians
-function toRad(Value) {
-    return Value * Math.PI / 180;
-}
 
 function categoryImage(event) {
     let imageCategory = "";
@@ -91,9 +74,6 @@ function singleImage(events) {
 function appendEvents(events) {
     let htmlEvents = "";
     for (let event of events) {
-        // if (event.Address.GeoCoordinate !== null) {
-        //     console.log(calcCrow(event.Address.GeoCoordinate.Latitude, event.Address.GeoCoordinate.Longitude, userCoordLat, userCoordLong));
-        //     }
         htmlEvents += /*html*/ `
     <article onclick="showDetailView('${event.Id}')">
     <div>
@@ -122,28 +102,47 @@ function appendForside(events){
     document.querySelector("#event").innerHTML = html;
 }
 
-// async function getLocation() {
-//    if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(showError, showDetailView, appendPlacestoeat);
-//     } else {
-//         div.innerHTML = "Your browser does not support geolocation. ";
-//     }
-// }
+function getLocation() {
+   if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showError, showPosition, appendEvents);
+    } else {
+        div.innerHTML = "Your browser does not support geolocation. ";
+    }
+}
 
-// function showPosition(position) {
-//         userCoordLong = position.coords.latitude;
-//         userCoordLat = position.coords.longitude;
-        
-//         console.log(calcCrow(userCoordLat, userCoordLong, eventLat, eventLong).toFixed(1));
-//         console.log(userCoordLong, userCoordLat);
-// }
+function showPosition(position) {
+        let userCoordLong = position.coords.latitude;
+        let userCoordLat = position.coords.longitude;
+        console.log(userCoordLong);
+        console.log(userCoordLat);
+}
 
-// function showError(error) {
-//     if (error.PERMISSION_DENIED) {
-//         alert('Geolocation requested denied. Check your browser settings or give the browser permission to track your location.')
-//     }
-// }
-// getLocation();
+function showError(error) {
+    if (error.PERMISSION_DENIED) {
+        alert('Geolocation requested denied. Check your browser settings or give the browser permission to track your location.')
+    }
+}
+getLocation();
+
+
+console.log("hi");
+function calcCrow(lat1, lon1, lat2, lon2) {
+    var R = 6371; // km
+    var dLat = toRad(lat2 - lat1);
+    var dLon = toRad(lon2 - lon1);
+    var lat1 = toRad(lat1);
+    var lat2 = toRad(lat2);
+
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d;
+}
+// Converts numeric degrees to radians
+function toRad(Value) {
+    return Value * Math.PI / 180;
+}
 
 // Search for name or category (cafe, bar)
 function search(searchValue) {
@@ -332,7 +331,7 @@ function appendPlacestoeat(events){
         <address>${event.Address.AddressLine1}, ${event.Address.PostalCode} ${event.Address.City}</address>
         </div>
         <div class="category_box_2">
-        <p>${event.Descriptions[0].Text.substring(0,100)}... <span>Læs mere</span></p>
+        <p>${event.Descriptions[0].Text}... <span>Læs mere</span></p>
         </div>
         <div class="category_box_3">
         <div class="category_spec_category">${event.Category.Name} <i class="far fa-bookmark fa-2x favorite-btn" onclick="addtoFavoriteList(${event.Id})"></i></div>
