@@ -26,16 +26,16 @@ fetchCategories();
 function categoryImage(event) {
     let imageCategory = "";
     if (event.MainCategory.Name === "Places to eat") {
-        imageCategory = "../img/placesToEat_ph.png";
+        imageCategory = "img/placesToEat_ph.png";
         
     } else if (event.MainCategory.Name === "Attractions") {
-        imageCategory = "../img/attractions_ph.png";
+        imageCategory = "img/attractions_ph.png";
     }
     else if (event.MainCategory.Name === "Events") {
-        imageCategory = "../img/events_ph.png";
+        imageCategory = "img/events_ph.png";
     }
     else if (event.MainCategory.Name === "Activities") {
-        imageCategory = "../img/activities_ph.png";
+        imageCategory = "img/activities_ph.png";
     }
     return imageCategory;
 }
