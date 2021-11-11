@@ -83,65 +83,73 @@ function appendEvents(events) {
     </article>
     `;
     }
-    
+    document.querySelector("#search-results").innerHTML = htmlEvents;
 }
 
 // Forside
 function appendForside(events){
     let html = "";
+        html += `<h2>Museums</h2><div class="related">`
     for(let event of events){
+        if(event.Category.Name == "Museums"){
         html += `
-        <article onclick="showDetailView('${event.Id}')">
-        <div>
-        <p>${event.Name}</p>
-        <img src="${singleImage(event)}">
-        </div>
+        <article class="relatedproducts" onclick="showDetailView('${event.Id}')">
+            <img src="${singleImage(event)}">
+            <p>${event.Name}</p>
+            <p class="lightblue">${event.MainCategory.Name}</p>
         </article>
         `;
+        }
+    }
+        html += `</div><h2>Attractions</h2><div class="related">`
+    for(let event of events){
+        if(event.Category.Name === "Restaurants"){
+        html += `
+        <article class="relatedproducts" onclick="showDetailView('${event.Id}')">
+            <img src="${singleImage(event)}">
+            <p>${event.Name}</p>
+            <p class="lightblue">${event.MainCategory.Name}</p>
+        </article>
+        `;
+        }
+    }
+        html += `</div><h2>Events</h2><div class="related">`
+    for(let event of events){
+        if(event.Category.Name === "Events"){
+        html += `
+        <article class="relatedproducts" onclick="showDetailView('${event.Id}')">
+        <img src="${singleImage(event)}">
+        <p>${event.Name}</p>
+        <p class="lightblue">${event.MainCategory.Name}</p>
+        </article>
+        `;
+        }
+    }
+        html += `</div><h2>Shopping</h2><div class="related">`
+    for(let event of events){
+        if(event.Category.Name === "Shopping"){
+        html += `
+        <article class="relatedproducts" onclick="showDetailView('${event.Id}')">
+                <img src="${singleImage(event)}">
+                <p>${event.Name}</p>
+                <p class="lightblue">${event.MainCategory.Name}</p>
+        </article>
+        `;
+        }
+    }
+        html += `</div><h2>Nightlife and Clubs</h2><div class="related">`
+    for(let event of events){
+        if(event.Category.Name === "Nightlife and Clubs"){
+        html += `
+        <article class="relatedproducts" onclick="showDetailView('${event.Id}')">
+        <img src="${singleImage(event)}">
+        <p>${event.Name}</p>
+        <p class="lightblue">${event.MainCategory.Name}</p>
+        </article>
+        `;
+        }
     }
     document.querySelector("#event").innerHTML = html;
-}
-
-function getLocation() {
-   if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showError, showPosition, appendEvents);
-    } else {
-        div.innerHTML = "Your browser does not support geolocation. ";
-    }
-}
-
-function showPosition(position) {
-        let userCoordLong = position.coords.latitude;
-        let userCoordLat = position.coords.longitude;
-        console.log(userCoordLong);
-        console.log(userCoordLat);
-}
-
-function showError(error) {
-    if (error.PERMISSION_DENIED) {
-        alert('Geolocation requested denied. Check your browser settings or give the browser permission to track your location.')
-    }
-}
-getLocation();
-
-
-console.log("hi");
-function calcCrow(lat1, lon1, lat2, lon2) {
-    var R = 6371; // km
-    var dLat = toRad(lat2 - lat1);
-    var dLon = toRad(lon2 - lon1);
-    var lat1 = toRad(lat1);
-    var lat2 = toRad(lat2);
-
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c;
-    return d;
-}
-// Converts numeric degrees to radians
-function toRad(Value) {
-    return Value * Math.PI / 180;
 }
 
 // Search for name or category (cafe, bar)
@@ -157,6 +165,7 @@ function search(searchValue) {
             results.push(searchedEvent);
         }
     }
+    appendEvents(results);
     appendForside(results);
 }
 
@@ -171,8 +180,7 @@ function search(searchValue) {
 
 
 //Detail View <p>${event.Address.GeoCoordinate.Lati}</p> 
-{/* <p id="viewmore">${event.Descriptions[0].Text.substring(200)}</p>
-<p id="viewmore-btn">View more</p> */}
+{/*  */}
 function showDetailView(id) {
     let html = ""
     const event = _visitDenmarkData.find(event => event.Id == id);
@@ -186,16 +194,18 @@ function showDetailView(id) {
     <div class="detail-info">
     <div class="flex">
     <h2>${event.Name}</h2>
-    <i class="fas fa-heart" class="favorite-btn" onclick="addtoFavoriteList(${event.Id})"></i>
+    <i class="far fa-bookmark fa-2x favorite-btn" onclick="addtoFavoriteList(${event.Id})"></i>
     </div>
     <p>${event.Descriptions[0].Text.substring(0,200)}...</p>
+    <p id="viewmore">${event.Descriptions[0].Text.substring(200)}</p>
+    <p id="viewmore-btn">View more</p>
     <div id="adress-detail">
     <p>${event.Address.AddressLine1} </p>
     <p>${event.Address.PostalCode}, ${event.Address.City}</p>
     </div>
     <a href="${event.CanonicalUrl}">More info</a>
     <h3>You might also like..</h3>
-    <div id="related">
+    <div class="related"></div>
     `;
     if (event.RelatedProducts.length > 1) {
         for (let related of event.RelatedProducts) {
@@ -315,10 +325,25 @@ appendFavorites();
 
 // Underkategorier
 function appendPlacestoeat(events){
-    let html = "<h2>Popular</h2>";
     for(let event of events){
         if (event.MainCategory.Name === "Places to eat"){  
         document.querySelector("#eat_event").innerHTML += /*html*/ `
+        <article class="places_card" onclick="showDetailView('${event.Id}')">
+        <img src="${singleImage(event)}">
+        <div class="eat_box_1">
+        <h3>${event.Name}</h3>
+        </div>
+        <div class="eat_box_2">
+        <address>${event.Address.AddressLine1}, ${event.Address.PostalCode} ${event.Address.City}</address>
+        </div>
+        <div class="eat_box_3">
+        <p class="lightblue category_spec_category">${event.Category.Name}</p>
+        </div>
+        </article>
+        `;
+    }
+    else if (event.MainCategory.Name === "Activities"){  
+        document.querySelector("#activities_event").innerHTML += /*html*/ `
         <article class="category_card" onclick="showDetailView('${event.Id}')">
         <span class="fa-stack close_button">
         <i class="close_circle fas fa-circle fa-stack-2x"></i>
@@ -331,48 +356,58 @@ function appendPlacestoeat(events){
         <address>${event.Address.AddressLine1}, ${event.Address.PostalCode} ${event.Address.City}</address>
         </div>
         <div class="category_box_2">
-        <p>${event.Descriptions[0].Text}... <span>Læs mere</span></p>
+        <p>${event.Descriptions[0].Text.toString().substring(0,100)}... <span>Read more</span></p>
         </div>
         <div class="category_box_3">
-        <div class="category_spec_category">${event.Category.Name} <i class="far fa-bookmark fa-2x favorite-btn" onclick="addtoFavoriteList(${event.Id})"></i></div>
+        <div class="category_spec_category lightblue">${event.Category.Name} <i class="far fa-bookmark fa-2x favorite-btn" onclick="addtoFavoriteList(${event.Id})"></i></div>
         </div>
         </div>
-        </article>
-        `;
-    }
-    else if (event.MainCategory.Name === "Activities"){  
-        document.querySelector("#activities_event").innerHTML += /*html*/ `
-        <article class="category_card" onclick="showDetailView('${event.Id}')">
-        <img src="${singleImage(event)}">
-        <div class="category_text">
-        <h3>${event.Name}</h3>
-        <address>${event.Address.AddressLine1}, ${event.Address.PostalCode} ${event.Address.City}</address>
-        </div>
-        
         </article>
         `;
     }
     else if (event.MainCategory.Name === "Attractions"){  
         document.querySelector("#attractions_event").innerHTML += /*html*/ `
         <article class="category_card" onclick="showDetailView('${event.Id}')">
+        <span class="fa-stack close_button">
+        <i class="close_circle fas fa-circle fa-stack-2x"></i>
+        <i class="close_times fas fa-times fa-stack-1x"></i>
+        </span>
         <img src="${singleImage(event)}">
         <div class="category_text">
+        <div class="category_box_1">
         <h3>${event.Name}</h3>
         <address>${event.Address.AddressLine1}, ${event.Address.PostalCode} ${event.Address.City}</address>
         </div>
-        
+        <div class="category_box_2">
+        <p>${event.Descriptions[0].Text.toString().substring(0,100)}... <span>Read more</span></p>
+        </div>
+        <div class="category_box_3">
+        <div class="category_spec_category lightblue">${event.Category.Name} <i class="far fa-bookmark fa-2x favorite-btn" onclick="addtoFavoriteList(${event.Id})"></i></div>
+        </div>
+        </div>
         </article>
         `;
     }
     else if (event.MainCategory.Name === "Events"){  
         document.querySelector("#event_event").innerHTML += /*html*/ `
         <article class="category_card" onclick="showDetailView('${event.Id}')">
+        <span class="fa-stack close_button">
+        <i class="close_circle fas fa-circle fa-stack-2x"></i>
+        <i class="close_times fas fa-times fa-stack-1x"></i>
+        </span>
         <img src="${singleImage(event)}">
         <div class="category_text">
+        <div class="category_box_1">
         <h3>${event.Name}</h3>
         <address>${event.Address.AddressLine1}, ${event.Address.PostalCode} ${event.Address.City}</address>
         </div>
-        
+        <div class="category_box_2">
+        <p>${event.Descriptions[0].Text.toString().substring(0,100)}... <span>Read more</span></p>
+        </div>
+        <div class="category_box_3">
+        <div class="category_spec_category lightblue">${event.Category.Name} <i class="far fa-bookmark fa-2x favorite-btn" onclick="addtoFavoriteList(${event.Id})"></i></div>
+        </div>
+        </div>
         </article>
         `;
     }
@@ -434,3 +469,45 @@ function appendPlacestoeat(events){
 //   function isFavDrink(drinkId) {
 //     return _favDrinks.find((drink) => drink.id == drinkId); // checking if _favMovies has the movie with matching id or not
 //   }
+
+// function getLocation() {
+    //    if (navigator.geolocation) {
+    //         navigator.geolocation.getCurrentPosition(showError, showPosition, appendEvents);
+    //     } else {
+    //         div.innerHTML = "Your browser does not support geolocation. ";
+    //     }
+    // }
+    
+    // function showPosition(position) {
+    //         let userCoordLong = position.coords.latitude;
+    //         let userCoordLat = position.coords.longitude;
+    //         console.log(userCoordLong);
+    //         console.log(userCoordLat);
+    // }
+    
+    // function showError(error) {
+    //     if (error.PERMISSION_DENIED) {
+    //         alert('Geolocation requested denied. Check your browser settings or give the browser permission to track your location.')
+    //     }
+    // }
+    // getLocation();
+    
+    
+    // console.log("hi");
+    // function calcCrow(lat1, lon1, lat2, lon2) {
+    //     var R = 6371; // km
+    //     var dLat = toRad(lat2 - lat1);
+    //     var dLon = toRad(lon2 - lon1);
+    //     var lat1 = toRad(lat1);
+    //     var lat2 = toRad(lat2);
+    
+    //     var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    //         Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    //     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    //     var d = R * c;
+    //     return d;
+    // }
+    // // Converts numeric degrees to radians
+    // function toRad(Value) {
+    //     return Value * Math.PI / 180;
+    // }
